@@ -20,6 +20,7 @@ from dateutil import parser
 from tqdm import tqdm
 import argparse
 import os
+import dpkt
 import glob
 import csv
 import socket
@@ -31,14 +32,18 @@ def argParse():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", dest="DIR", required=True, help="Output directory", metavar='')
     parser.add_argument("-l", "--logs", dest="log", required=True, help="Location of PiHole Logs", metavar='')
+    parser.add_argument("-p", "--pcap",dest="pfile", required=False, help="Path of PCAP file", metavar='')
     args = parser.parse_args()
 
-    global directory, logs
+    global directory, logs, pcap_file
     directory = str(args.DIR)+"/generate_files"
     logs = str(args.log)
+    pcap_file = str(args.pfile)
 
     if (not os.path.isdir(directory)):              # Check to make sure the directory exists.
         os.makedirs(directory)
+
+
 
 
 
@@ -126,5 +131,5 @@ if __name__ == "__main__":
     argParse()
     logsToCSV()
     RokuSearch()
-    # uniqueIPCheck()
+    #uniqueIPCheck()
     print("[+] Done")
