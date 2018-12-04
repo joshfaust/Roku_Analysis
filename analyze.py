@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-# ---------------------------------------------------#
+# ==================================================#
 # Roku Log Parsing                                  #
 # By: @faust0                                       #
 #                                                   #
@@ -13,10 +13,11 @@
 # generating and how much of that data is non-      #
 # streaming information being sent back to the Roku #
 # logging servers.                                  #
-# ---------------------------------------------------#
+# ==================================================#
 
 import pandas as pd
 from dateutil import parser
+import datetime
 from tqdm import tqdm
 import argparse
 import os
@@ -25,8 +26,14 @@ import glob
 import csv
 import socket
 
-ROKU_IPS = ['192.168.1.58', '192.168.1.99', '192.168.1.209']
+DELTA_DATES_TMP = []
+DELTA_TIMES = []
 
+
+
+#--------------------------------------------#
+# Argument Parsing Function:                 #
+#--------------------------------------------#
 
 def argParse():
     parser = argparse.ArgumentParser()
@@ -44,8 +51,9 @@ def argParse():
         os.makedirs(directory)
 
 
-
-
+#--------------------------------------------#
+# Translate PiHole Logs to CSV with Pandas:  #
+#--------------------------------------------#
 
 def logsToCSV():
     print("[+] Translating log to CSV")
@@ -79,8 +87,34 @@ def logsToCSV():
             pbar.update(1)
         pbar.close()
 
-        if (file_num == log_num):
-            os.system("clear")
+
+
+#--------------------------------------------#
+# Calculate the DateTime Deltas               #
+#--------------------------------------------#
+
+def calcDeltas(list):
+    DELTA_DATES = sorted(list)                   # Sort the dates in the list properly before analysis
+    for i in range(0, len(DELTA_DATES)):
+        if (i == (len(DELTA_DATES) - 1)):
+            pass
+        elif (i == 0):
+            time1 = DELTA_DATES[len(DELTA_DATES) - 1]
+            time2 = DELTA_DATES[len(DELTA_DATES) - (i + 2)]
+            elapsedtime = time1 - time2
+            DELTA_TIMES.append(elapsedtime)
+        else:
+            time1 = DELTA_DATES[len(DELTA_DATES) - i]
+            time2 = DELTA_DATES[len(DELTA_DATES) - (i + 1)]
+            elapsedtime = time1 - time2
+            DELTA_TIMES.append(elapsedtime)
+
+    delta_average = sum(DELTA_TIMES, datetime.timedelta()).total_seconds() / len(DELTA_TIMES)
+    print("\t[i] Numder of Dates Recorded: %s" % str(len(DELTA_DATES)))
+    print("\t[i] Number of Delta Times Recorded: %s" % str(len(DELTA_TIMES)))
+    print("\t[i] Average Time Delta (sec): %.4f\n" % delta_average)
+    del DELTA_TIMES[:]
+
 
 
 def uniqueIPCheck():
@@ -111,25 +145,51 @@ def uniqueIPCheck():
 
 
 def RokuSearch():
+
+    ROKU_IPS = ['192.168.1.58', '192.168.1.99', '192.168.1.209']
+    j = 0
+
     df = pd.read_csv(directory+"/all_logs.csv", names=['Date', 'IP', 'URL'])
     IP_records = df.loc[df['IP'].isin(ROKU_IPS)]
     finalRecord = IP_records[IP_records['URL'].str.contains('roku')]
+    finalRecord.to_csv(directory + '/roku_logs.csv')
 
-    finalRecord.to_csv(directory+'/roku_logs.csv')
+    # All records for IP 192.168.1.58
+    FErecords = finalRecord[finalRecord['IP'].str.contains(ROKU_IPS[0])]
+    # All records for IP 192.168.1.99
+    NNrecords = finalRecord[finalRecord['IP'].str.contains(ROKU_IPS[1])]
+    # All records for IP 192.168.1.209
+    ZNrecords = finalRecord[finalRecord['IP'].str.contains(ROKU_IPS[2])]
+    records = [FErecords, NNrecords, ZNrecords]
+    FErecords.to_csv(directory + "/192.168.1.58.csv")
+    NNrecords.to_csv(directory + "/192.168.1.99.csv")
+    ZNrecords.to_csv(directory + "/192.168.1.209.csv")
+
+    os.system("clear")
+    for ip_record in records:
+        print("[+] Calculating Time Deltas for %s" % ROKU_IPS[j])
+        j+=1
+        DATES_TMP = ip_record["Date"].unique().tolist()
+
+        for i in range(0,len(DATES_TMP)):
+            DELTA_DATES_TMP.append(parser.parse(DATES_TMP[i]))
+        calcDeltas(DELTA_DATES_TMP)
+        del DELTA_DATES_TMP[:]
+    #os.system("clear")
 
     all_records = len(df)
     roku_all_records = len(IP_records)
     roku_logging_records = len(finalRecord)
 
+    print("[+] Roku Traffic Record Metrics:")
     roku_records_percent = ("{0:.0f}%".format(roku_all_records / all_records * 100))
     roku_logging_percent = ("{0:.0f}%".format(roku_logging_records / all_records * 100))
-    print("[+] Roku Records make up: %s" % str(roku_records_percent))
-    print("[+] Roku direct logging records make up: %s" % str(roku_logging_percent))
+    print("\t[i] Roku Records make up: %s" % str(roku_records_percent))
+    print("\t[i] Roku direct logging records make up: %s" % str(roku_logging_percent))
 
 
 if __name__ == "__main__":
     argParse()
     logsToCSV()
     RokuSearch()
-    #uniqueIPCheck()
-    print("[+] Done")
+
