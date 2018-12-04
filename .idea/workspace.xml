@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="da0803d5-017c-4690-8142-6776a393bdb9" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/analyze.py" beforeDir="false" afterPath="$PROJECT_DIR$/analyze.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test.pcap" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -16,11 +15,10 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/analyze.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1032">
-              <caret line="167" column="20" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="20" />
+            <state relative-caret-position="1280">
+              <caret line="49" column="30" lean-forward="true" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
               <folding>
                 <element signature="e#777#796#0" expanded="true" />
-                <element signature="e#2854#3668#0" />
               </folding>
             </state>
           </provider>
@@ -46,7 +44,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="4">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="1922" />
     <option name="width" value="1918" />
     <option name="height" value="2104" />
@@ -99,7 +97,7 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="1922" y="0" width="1918" height="2104" extended-state="4" />
+    <frame x="0" y="-2" width="3840" height="2106" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
@@ -124,11 +122,10 @@
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/analyze.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1032">
-          <caret line="167" column="20" selection-start-line="167" selection-start-column="20" selection-end-line="167" selection-end-column="20" />
+        <state relative-caret-position="1280">
+          <caret line="49" column="30" lean-forward="true" selection-start-line="49" selection-start-column="30" selection-end-line="49" selection-end-column="30" />
           <folding>
             <element signature="e#777#796#0" expanded="true" />
-            <element signature="e#2854#3668#0" />
           </folding>
         </state>
       </provider>

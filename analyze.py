@@ -30,34 +30,33 @@ DELTA_DATES_TMP = []
 DELTA_TIMES = []
 
 
-
-#--------------------------------------------#
-# Argument Parsing Function:                 #
-#--------------------------------------------#
+# --------------------------------------------#
+# Argument Parsing Function:                  #
+# --------------------------------------------#
 
 def argParse():
     parser = argparse.ArgumentParser()
     parser.add_argument("-d", "--directory", dest="DIR", required=True, help="Output directory", metavar='')
     parser.add_argument("-l", "--logs", dest="log", required=True, help="Location of PiHole Logs", metavar='')
-    parser.add_argument("-p", "--pcap",dest="pfile", required=False, help="Path of PCAP file", metavar='')
+    parser.add_argument("-p", "--pcap", dest="pfile", required=False, help="Path of PCAP file", metavar='')
     args = parser.parse_args()
 
     global directory, logs, pcap_file
-    directory = str(args.DIR)+"/generate_files"
+    directory = str(args.DIR) + "/generate_files"
     logs = str(args.log)
     pcap_file = str(args.pfile)
 
-    if (not os.path.isdir(directory)):              # Check to make sure the directory exists.
+    if (not os.path.isdir(directory)):  # Check to make sure the directory exists.
         os.makedirs(directory)
 
 
-#--------------------------------------------#
-# Translate PiHole Logs to CSV with Pandas:  #
-#--------------------------------------------#
+# --------------------------------------------#
+# Translate PiHole Logs to CSV with Pandas:   #
+# --------------------------------------------#
 
 def logsToCSV():
     print("[+] Translating log to CSV")
-    log_file = open(directory+"/all_logs.csv", "w", newline='')
+    log_file = open(directory + "/all_logs.csv", "w", newline='')
     csv_w = csv.writer(log_file)
     path, dirs, files = next(os.walk(logs))
     log_num = len(files)
@@ -88,13 +87,12 @@ def logsToCSV():
         pbar.close()
 
 
-
-#--------------------------------------------#
+# --------------------------------------------#
 # Calculate the DateTime Deltas               #
-#--------------------------------------------#
+# --------------------------------------------#
 
 def calcDeltas(list):
-    DELTA_DATES = sorted(list)                   # Sort the dates in the list properly before analysis
+    DELTA_DATES = sorted(list)  # Sort the dates in the list properly before analysis
     for i in range(0, len(DELTA_DATES)):
         if (i == (len(DELTA_DATES) - 1)):
             pass
@@ -116,6 +114,9 @@ def calcDeltas(list):
     del DELTA_TIMES[:]
 
 
+# --------------------------------------------#
+# (BETA) Review URL's & lookup domain         #
+# --------------------------------------------#
 
 def uniqueIPCheck():
     data = open("wireshark.csv", "r")
@@ -144,12 +145,14 @@ def uniqueIPCheck():
             print(e)
 
 
+# --------------------------------------------#
+# Segregate data subject to IP & record       #
+# --------------------------------------------#
 def RokuSearch():
-
     ROKU_IPS = ['192.168.1.58', '192.168.1.99', '192.168.1.209']
     j = 0
 
-    df = pd.read_csv(directory+"/all_logs.csv", names=['Date', 'IP', 'URL'])
+    df = pd.read_csv(directory + "/all_logs.csv", names=['Date', 'IP', 'URL'])
     IP_records = df.loc[df['IP'].isin(ROKU_IPS)]
     finalRecord = IP_records[IP_records['URL'].str.contains('roku')]
     finalRecord.to_csv(directory + '/roku_logs.csv')
@@ -168,14 +171,14 @@ def RokuSearch():
     os.system("clear")
     for ip_record in records:
         print("[+] Calculating Time Deltas for %s" % ROKU_IPS[j])
-        j+=1
+        j += 1
         DATES_TMP = ip_record["Date"].unique().tolist()
 
-        for i in range(0,len(DATES_TMP)):
+        for i in range(0, len(DATES_TMP)):
             DELTA_DATES_TMP.append(parser.parse(DATES_TMP[i]))
         calcDeltas(DELTA_DATES_TMP)
         del DELTA_DATES_TMP[:]
-    #os.system("clear")
+    # os.system("clear")
 
     all_records = len(df)
     roku_all_records = len(IP_records)
@@ -188,8 +191,11 @@ def RokuSearch():
     print("\t[i] Roku direct logging records make up: %s" % str(roku_logging_percent))
 
 
+# --------------------------------------------#
+# MAIN                                       #
+# --------------------------------------------#
+
 if __name__ == "__main__":
     argParse()
     logsToCSV()
     RokuSearch()
-
