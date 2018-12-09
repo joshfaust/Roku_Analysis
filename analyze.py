@@ -153,6 +153,7 @@ def RokuSearch():
     j = 0
 
     df = pd.read_csv(directory + "/all_logs.csv", names=['Date', 'IP', 'URL'])
+
     IP_records = df.loc[df['IP'].isin(ROKU_IPS)]
     finalRecord = IP_records[IP_records['URL'].str.contains('roku')]
     finalRecord.to_csv(directory + '/roku_logs.csv')
@@ -192,7 +193,7 @@ def RokuSearch():
 
 
 # --------------------------------------------#
-# MAIN                                       #
+# MAIN                                        #
 # --------------------------------------------#
 
 if __name__ == "__main__":
