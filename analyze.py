@@ -169,7 +169,12 @@ def RokuSearch():
     NNrecords.to_csv(directory + "/192.168.1.99.csv")
     ZNrecords.to_csv(directory + "/192.168.1.209.csv")
 
-    os.system("clear")
+    system  = os.name
+    if (system == "nt"):
+        os.system("cls")
+    else:
+        os.system("clear")
+
     for ip_record in records:
         print("[+] Calculating Time Deltas for %s" % ROKU_IPS[j])
         j += 1
