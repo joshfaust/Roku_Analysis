@@ -2,7 +2,7 @@
 
 # ==================================================#
 # Roku Log Parsing                                  #
-# By: @faust0                                       #
+# By: @jfaust0                                       #
 #                                                   #
 # Description:                                      #
 #                                                   #
