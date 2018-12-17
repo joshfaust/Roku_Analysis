@@ -21,6 +21,7 @@
     <session id="-1960809551">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
+          <entry key="project.closed" value="1" />
           <entry key="project.open.time.1" value="1" />
           <entry key="project.opened" value="1" />
         </counts>
@@ -58,8 +59,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/analyze.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="943">
-              <caret line="173" lean-forward="true" selection-start-line="173" selection-end-line="173" />
+            <state relative-caret-position="345">
+              <caret line="147" column="52" lean-forward="true" selection-start-line="147" selection-start-column="52" selection-end-line="147" selection-end-column="52" />
               <folding>
                 <element signature="e#777#796#0" expanded="true" />
               </folding>
@@ -219,7 +220,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="2575" height="1416" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.0843516" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
@@ -271,8 +271,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/analyze.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="943">
-          <caret line="173" lean-forward="true" selection-start-line="173" selection-end-line="173" />
+        <state relative-caret-position="345">
+          <caret line="147" column="52" lean-forward="true" selection-start-line="147" selection-start-column="52" selection-end-line="147" selection-end-column="52" />
           <folding>
             <element signature="e#777#796#0" expanded="true" />
           </folding>
