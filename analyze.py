@@ -93,25 +93,14 @@ def logsToCSV():
 
 def calcDeltas(list):
     DELTA_DATES = sorted(list)  # Sort the dates in the list properly before analysis
-    for i in range(0, len(DELTA_DATES)):
-        if (i == (len(DELTA_DATES) - 1)):
-            pass
-        elif (i == 0):
-            time1 = DELTA_DATES[len(DELTA_DATES) - 1]
-            time2 = DELTA_DATES[len(DELTA_DATES) - (i + 2)]
-            elapsedtime = time1 - time2
-            DELTA_TIMES.append(elapsedtime)
-        else:
-            time1 = DELTA_DATES[len(DELTA_DATES) - i]
-            time2 = DELTA_DATES[len(DELTA_DATES) - (i + 1)]
-            elapsedtime = time1 - time2
-            DELTA_TIMES.append(elapsedtime)
 
-    delta_average = sum(DELTA_TIMES, datetime.timedelta()).total_seconds() / len(DELTA_TIMES)
-    print("\t[i] Numder of Dates Recorded: %s" % str(len(DELTA_DATES)))
-    print("\t[i] Number of Delta Times Recorded: %s" % str(len(DELTA_TIMES)))
-    print("\t[i] Average Time Delta (sec): %.4f\n" % delta_average)
-    del DELTA_TIMES[:]
+    time_elapsed = DELTA_DATES[len(DELTA_DATES)-1] - DELTA_DATES[0]               # Obtain the total time surpassed.
+    time_elapsed_sec = time_elapsed.total_seconds()                             # Translate the total time surpassed into seconds
+    log_timing = time_elapsed_sec / len(DELTA_DATES)                              # Take the total seconds and divide by number of records to get average time per log.
+    print(f"\t[i] Total Number of Log Records: {len(DELTA_DATES)}")
+    print(f"\t[i] Total Time Surpassed: {time_elapsed}")
+    print(f"\t[i] Total Seconds Surpassed: {time_elapsed_sec}")
+    print(f"\t[i] Average Logging Delta (sec): {log_timing:.2f}\n\n")
 
 
 # --------------------------------------------#
@@ -155,7 +144,7 @@ def RokuSearch():
     df = pd.read_csv(directory + "/all_logs.csv", names=['Date', 'IP', 'URL'])
 
     IP_records = df.loc[df['IP'].isin(ROKU_IPS)]
-    finalRecord = IP_records[IP_records['URL'].str.contains('roku')]
+    finalRecord = IP_records[IP_records['URL'].str.contains('logs.roku')]
     finalRecord.to_csv(directory + '/roku_logs.csv')
 
     # All records for IP 192.168.1.58
@@ -169,7 +158,7 @@ def RokuSearch():
     NNrecords.to_csv(directory + "/192.168.1.99.csv")
     ZNrecords.to_csv(directory + "/192.168.1.209.csv")
 
-    system  = os.name
+    system = os.name
     if (system == "nt"):
         os.system("cls")
     else:
@@ -178,13 +167,22 @@ def RokuSearch():
     for ip_record in records:
         print("[+] Calculating Time Deltas for %s" % ROKU_IPS[j])
         j += 1
+
+        ''' We no longer need to pull unique logs for timing, We will just used elapsed time. 
+        print("\t[+] Unique Times Analysis:")
         DATES_TMP = ip_record["Date"].unique().tolist()
 
         for i in range(0, len(DATES_TMP)):
             DELTA_DATES_TMP.append(parser.parse(DATES_TMP[i]))
         calcDeltas(DELTA_DATES_TMP)
+       '''
+        DATES_TMP = ip_record["Date"].tolist()
+
+        for i in range(0, len(DATES_TMP)):
+            DELTA_DATES_TMP.append(parser.parse(DATES_TMP[i]))
+        calcDeltas(DELTA_DATES_TMP)
+
         del DELTA_DATES_TMP[:]
-    # os.system("clear")
 
     all_records = len(df)
     roku_all_records = len(IP_records)
