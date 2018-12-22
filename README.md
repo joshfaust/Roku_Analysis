@@ -5,8 +5,8 @@
 
 # Roku Log Analysis 
 
-The inital purpose of this reasearch is to review PiHole Logs associated with a Roku's logging activity.Takes PiHole logs generated on a PiHole machine and parses 
-out all Roku genereated traffic that's resident within the logs. The promary purpose is  to determine the amount of data a Roku is generating 
+The inital purpose of this research is to review PiHole Logs associated with a Roku's logging activity.Takes PiHole logs generated on a PiHole machine and parses 
+out all Roku generated traffic that's resident within the logs. The primary purpose is  to determine the amount of data a Roku is generating 
 and how much of that data is non-streaming information being sent back to the Roku logging servers.  
 
 # Usage: 
