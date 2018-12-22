@@ -1,4 +1,4 @@
-<a href ="https://github.com/MNFaust/Roku_Analysis">
+<a href ="https://github.com/cribdragg3r/Roku_Analysis">
   <img src="https://q4j2g5j9.stackpathcdn.com/ddg-dream/3c99180cbf6b8e835dbe542241c8b94c42398093.jpg"
     title="Roku Analysis/Research" align="left" height=100 length=100 /></a> 
 
@@ -27,5 +27,12 @@ comprehensive PCAP analysis in time. Right now, I am gathering more logs.
 <a href="https://twitter.com/JFaust0">
   <img src="https://cdn1.iconfinder.com/data/icons/iconza-circle-social/64/697029-twitter-512.png" height=75, width=75, align="left" />
   </a>
-  
-  **Twitter:** Jfaust0
+
+<a href="https://sevrosecurity.com">
+  <img src="https://sevrosecurity.com/wp-content/uploads/2018/04/House-mars.png" height=75, width=90, align="left" />
+  </a>
+
+ 
+**Twitter:** <a href = "https://twitter.com/JFaust0">Jfaust0</a>
+
+**Website**: <a href="https://sevrosecurity.com">SevroSecurity.com</a>
